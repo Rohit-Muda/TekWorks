@@ -34,7 +34,7 @@ def read_data():
         st.write(df)
     
     except connector.Error as e:
-        print("Error reading data from database", e)
+        st.error(f"Error reading data from database {e}")
     
 
 def insert_data():
@@ -110,7 +110,8 @@ def delete_data():
 
 def options():
     
-    st.sidebar.title("CURD Operations")
+    st.sidebar.title("CRUD Operations")
+
     option=st.sidebar.radio("Select Your Operation to perform : " ,("Read","Insert","Update","Delete"))
     
     if option=="Insert":

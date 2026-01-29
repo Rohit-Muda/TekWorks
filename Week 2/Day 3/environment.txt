@@ -1,0 +1,9 @@
+Step 1: Create the v env
+
+python -m venv streamlit
+
+step 2: Activate env
+streamlit\Script\activate
+
+step 3: install streamlit
+pip install streamlit

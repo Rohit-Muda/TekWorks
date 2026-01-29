@@ -63,7 +63,7 @@ def register():
 
             cursor.execute("SELECT email FROM regi WHERE email=%s and password=%s ",(email,password))
             record=cursor.fetchone()
-            st.write(record)
+
             if(record==None):
                 cursor.execute("INSERT INTO regi (name,email,password) VALUES(%s,%s,%s)",(name,email,password))
                 con.commit()

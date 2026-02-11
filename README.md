@@ -10,3 +10,4 @@
 - Data Base Connection from python to MySQL
 - streamlit integration
 - streamlit task ( CURD Operations)
+s

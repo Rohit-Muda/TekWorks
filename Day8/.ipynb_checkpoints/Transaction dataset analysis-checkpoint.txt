@@ -1,0 +1,70 @@
+What is the total sales amount across all transactions?
+
+Which month had the highest total transaction amount?
+
+What is the average transaction amount per customer?
+
+What is the trend of total sales over months?
+
+What is the highest single transaction amount recorded?
+
+Which service category contributes the most to total revenue?
+
+Which product generated the highest revenue?
+
+How does the average transaction amount vary between services?
+
+How many unique customers made purchases?
+
+Which customers have spent the most overall?
+
+What is the average number of transactions per customer?
+
+Are there customers who made multiple purchases in different categories?
+
+What percentage of customers are repeat buyers?
+
+Which product category has the highest total sales?
+
+Which services are most popular by transaction count?
+
+For each service, which product type is purchased most frequently?
+
+What is the average transaction amount per product type?
+
+Are there specific services where customers spend significantly more?
+
+Which state has the highest total sales?
+
+Which city records the highest number of transactions?
+
+What is the average spending per transaction in each state?
+
+Are certain services more popular in specific states?
+
+Which states buy the most Outdoor Recreation products?
+
+Compare average spending between California and Texas customers.
+
+Which quarter of the year saw the highest sales?
+
+How does total sales vary month by month?
+
+What is the total number of transactions per month?
+
+Is there a particular season when sports equipment sales spike?
+
+How many transactions were done using credit?
+
+What is the total revenue generated from credit transactions?
+
+Is there a difference in average spending between credit and debit customers?
+
+Which states or cities should the company focus on for marketing high-value products?
+
+Should more inventory be stocked for Exercise & Fitness products given their popularity?
+
+Are there product categories with high sales but low average transaction amounts?
+
+Are there underperforming service categories that need promotional offers?
+

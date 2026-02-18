@@ -1,0 +1,625 @@
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| data_db            |
+| information_schema |
+| mysql              |
+| performance_schema |
+| students_db        |
+| sys                |
++--------------------+
+6 rows in set (0.10 sec)
+
+
+mysql> create database DB1;
+Query OK, 1 row affected (0.05 sec)
+
+mysql> use DB1
+Database changed
+
+
+mysql>  CREATE TABLE students (
+    ->     id INT AUTO_INCREMENT PRIMARY KEY,
+    ->     name VARCHAR(100) NOT NULL,
+    ->     email_id VARCHAR(150) UNIQUE NOT NULL,
+    ->     gender varchar(20) NOT NULL, city VARCHAR(100),marks INT);
+Query OK, 0 rows affected (0.18 sec)
+
+mysql> INSERT INTO students (name, email_id, gender, city, marks) VALUES
+    -> ('Nikitha G', 'nikitha.g@gmail.com', 'Female', 'Hyderabad', 78),
+    -> ('Shruti Tiwari', 'shruti.tiwari@gmail.com', 'Female', 'Hyderabad', 85),
+    -> ('Srujana Tk', 'srujana.tk@gmail.com', 'Female', 'Hyderabad', 69),
+    -> ('Chandana Abbidi', 'chandana.abbidi@gmail.com', 'Female', 'Hyderabad', 92),
+    -> ('Keerthana Bodi', 'keerthana.bodi@gmail.com', 'Female', 'Hyderabad', 74),
+    -> ('Akshay Bouroju', 'akshay.bouroju@gmail.com', 'Male', 'Hyderabad', 88),
+    -> ('Nithisha Kandakatla', 'nithisha.k@gmail.com', 'Female', 'Hyderabad', 61),
+    -> ('Dishmitha M', 'dishmitha.m@gmail.com', 'Female', 'Hyderabad', 55),
+    -> ('Deepika Nadimpalli', 'deepika.n@gmail.com', 'Female', 'Hyderabad', 90),
+    -> ('Keerthan Pentam', 'keerthan.p@gmail.com', 'Male', 'Hyderabad', 73),
+    -> ('Kranthi Kumar Samudrala', 'kranthi.sam@gmail.com', 'Male', 'Hyderabad', 82),
+    -> ('Sushmitha Siridoshi', 'sushmitha.s@gmail.com', 'Female', 'Hyderabad', 67),
+    -> ('Sree Charan Vutukuri', 'sree.charan@gmail.com', 'Male', 'Hyderabad', 95),
+    -> ('Sanjana Yelligaddala', 'sanjana.y@gmail.com', 'Female', 'Hyderabad', 79);
+Query OK, 14 rows affected (0.07 sec)
+Records: 14  Duplicates: 0  Warnings: 0
+
+mysql> select * from students;
+
++----+-------------------------+---------------------------+--------+-----------+-------+
+| id | name                    | email_id                  | gender | city      | marks |
++----+-------------------------+---------------------------+--------+-----------+-------+
+|  1 | Nikitha G               | nikitha.g@gmail.com       | Female | Hyderabad |    78 |
+|  2 | Shruti Tiwari           | shruti.tiwari@gmail.com   | Female | Hyderabad |    85 |
+|  3 | Srujana Tk              | srujana.tk@gmail.com      | Female | Hyderabad |    69 |
+|  4 | Chandana Abbidi         | chandana.abbidi@gmail.com | Female | Hyderabad |    92 |
+|  5 | Keerthana Bodi          | keerthana.bodi@gmail.com  | Female | Hyderabad |    74 |
+|  6 | Akshay Bouroju          | akshay.bouroju@gmail.com  | Male   | Hyderabad |    88 |
+|  7 | Nithisha Kandakatla     | nithisha.k@gmail.com      | Female | Hyderabad |    61 |
+|  8 | Dishmitha M             | dishmitha.m@gmail.com     | Female | Hyderabad |    55 |
+|  9 | Deepika Nadimpalli      | deepika.n@gmail.com       | Female | Hyderabad |    90 |
+| 10 | Keerthan Pentam         | keerthan.p@gmail.com      | Male   | Hyderabad |    73 |
+| 11 | Kranthi Kumar Samudrala | kranthi.sam@gmail.com     | Male   | Hyderabad |    82 |
+| 12 | Sushmitha Siridoshi     | sushmitha.s@gmail.com     | Female | Hyderabad |    67 |
+| 13 | Sree Charan Vutukuri    | sree.charan@gmail.com     | Male   | Hyderabad |    95 |
+| 14 | Sanjana Yelligaddala    | sanjana.y@gmail.com       | Female | Hyderabad |    79 |
++----+-------------------------+---------------------------+--------+-----------+-------+
+14 rows in set (0.02 sec)
+
+mysql> desc students;
++----------+--------------+------+-----+---------+----------------+
+| Field    | Type         | Null | Key | Default | Extra          |
++----------+--------------+------+-----+---------+----------------+
+| id       | int          | NO   | PRI | NULL    | auto_increment |
+| name     | varchar(100) | NO   |     | NULL    |                |
+| email_id | varchar(150) | NO   | UNI | NULL    |                |
+| gender   | varchar(20)  | NO   |     | NULL    |                |
+| city     | varchar(100) | YES  |     | NULL    |                |
+| marks    | int          | YES  |     | NULL    |                |
++----------+--------------+------+-----+---------+----------------+
+6 rows in set (0.07 sec)
+
+mysql> select id,city,marks,name from students;
++----+-----------+-------+-------------------------+
+| id | city      | marks | name                    |
++----+-----------+-------+-------------------------+
+|  1 | Hyderabad |    78 | Nikitha G               |
+|  2 | Hyderabad |    85 | Shruti Tiwari           |
+|  3 | Hyderabad |    69 | Srujana Tk              |
+|  4 | Hyderabad |    92 | Chandana Abbidi         |
+|  5 | Hyderabad |    74 | Keerthana Bodi          |
+|  6 | Hyderabad |    88 | Akshay Bouroju          |
+|  7 | Hyderabad |    61 | Nithisha Kandakatla     |
+|  8 | Hyderabad |    55 | Dishmitha M             |
+|  9 | Hyderabad |    90 | Deepika Nadimpalli      |
+| 10 | Hyderabad |    73 | Keerthan Pentam         |
+| 11 | Hyderabad |    82 | Kranthi Kumar Samudrala |
+| 12 | Hyderabad |    67 | Sushmitha Siridoshi     |
+| 13 | Hyderabad |    95 | Sree Charan Vutukuri    |
+| 14 | Hyderabad |    79 | Sanjana Yelligaddala    |
++----+-----------+-------+-------------------------+
+14 rows in set (0.00 sec)
+
+mysql> select * from students where gender='male'
+    -> ;
++----+-------------------------+--------------------------+--------+-----------+-------+
+| id | name                    | email_id                 | gender | city      | marks |
++----+-------------------------+--------------------------+--------+-----------+-------+
+|  6 | Akshay Bouroju          | akshay.bouroju@gmail.com | Male   | Hyderabad |    88 |
+| 10 | Keerthan Pentam         | keerthan.p@gmail.com     | Male   | Hyderabad |    73 |
+| 11 | Kranthi Kumar Samudrala | kranthi.sam@gmail.com    | Male   | Hyderabad |    82 |
+| 13 | Sree Charan Vutukuri    | sree.charan@gmail.com    | Male   | Hyderabad |    95 |
++----+-------------------------+--------------------------+--------+-----------+-------+
+4 rows in set (0.00 sec)
+
+mysql> select * from students where gender='male' and marks>85
+    -> ;
++----+----------------------+--------------------------+--------+-----------+-------+
+| id | name                 | email_id                 | gender | city      | marks |
++----+----------------------+--------------------------+--------+-----------+-------+
+|  6 | Akshay Bouroju       | akshay.bouroju@gmail.com | Male   | Hyderabad |    88 |
+| 13 | Sree Charan Vutukuri | sree.charan@gmail.com    | Male   | Hyderabad |    95 |
++----+----------------------+--------------------------+--------+-----------+-------+
+2 rows in set (0.00 sec)
+
+mysql> select * from students where gender='female' and marks>85;
++----+--------------------+---------------------------+--------+-----------+-------+
+| id | name               | email_id                  | gender | city      | marks |
++----+--------------------+---------------------------+--------+-----------+-------+
+|  4 | Chandana Abbidi    | chandana.abbidi@gmail.com | Female | Hyderabad |    92 |
+|  9 | Deepika Nadimpalli | deepika.n@gmail.com       | Female | Hyderabad |    90 |
++----+--------------------+---------------------------+--------+-----------+-------+
+2 rows in set (0.00 sec)
+
+mysql> select * from students where name='Keerthana Bodi'
+    -> ;
++----+----------------+--------------------------+--------+-----------+-------+
+| id | name           | email_id                 | gender | city      | marks |
++----+----------------+--------------------------+--------+-----------+-------+
+|  5 | Keerthana Bodi | keerthana.bodi@gmail.com | Female | Hyderabad |    74 |
++----+----------------+--------------------------+--------+-----------+-------+
+1 row in set (0.00 sec)
+
+mysql> select id,name,marks from students where id=9;
++----+--------------------+-------+
+| id | name               | marks |
++----+--------------------+-------+
+|  9 | Deepika Nadimpalli |    90 |
++----+--------------------+-------+
+1 row in set (0.00 sec)
+
+mysql> update students set city="Pune" where id=6;
+Query OK, 1 row affected (0.02 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from students where id=6;
++----+----------------+--------------------------+--------+------+-------+
+| id | name           | email_id                 | gender | city | marks |
++----+----------------+--------------------------+--------+------+-------+
+|  6 | Akshay Bouroju | akshay.bouroju@gmail.com | Male   | Pune |    88 |
++----+----------------+--------------------------+--------+------+-------+
+1 row in set (0.00 sec)
+
+mysql> update students set city="Delhi" where id=5;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update students set city="Banglore" where id=9;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from students where id=5 or id=6 or id=9;
++----+--------------------+--------------------------+--------+----------+-------+
+| id | name               | email_id                 | gender | city     | marks |
++----+--------------------+--------------------------+--------+----------+-------+
+|  5 | Keerthana Bodi     | keerthana.bodi@gmail.com | Female | Delhi    |    74 |
+|  6 | Akshay Bouroju     | akshay.bouroju@gmail.com | Male   | Pune     |    88 |
+|  9 | Deepika Nadimpalli | deepika.n@gmail.com      | Female | Banglore |    90 |
++----+--------------------+--------------------------+--------+----------+-------+
+3 rows in set (0.00 sec)
+
+mysql> select * from students
+    -> ;
++----+-------------------------+---------------------------+--------+-----------+-------+
+| id | name                    | email_id                  | gender | city      | marks |
++----+-------------------------+---------------------------+--------+-----------+-------+
+|  1 | Nikitha G               | nikitha.g@gmail.com       | Female | Hyderabad |    78 |
+|  2 | Shruti Tiwari           | shruti.tiwari@gmail.com   | Female | Hyderabad |    85 |
+|  3 | Srujana Tk              | srujana.tk@gmail.com      | Female | Hyderabad |    69 |
+|  4 | Chandana Abbidi         | chandana.abbidi@gmail.com | Female | Hyderabad |    92 |
+|  5 | Keerthana Bodi          | keerthana.bodi@gmail.com  | Female | Delhi     |    74 |
+|  6 | Akshay Bouroju          | akshay.bouroju@gmail.com  | Male   | Pune      |    88 |
+|  7 | Nithisha Kandakatla     | nithisha.k@gmail.com      | Female | Hyderabad |    61 |
+|  8 | Dishmitha M             | dishmitha.m@gmail.com     | Female | Hyderabad |    55 |
+|  9 | Deepika Nadimpalli      | deepika.n@gmail.com       | Female | Banglore  |    90 |
+| 10 | Keerthan Pentam         | keerthan.p@gmail.com      | Male   | Hyderabad |    73 |
+| 11 | Kranthi Kumar Samudrala | kranthi.sam@gmail.com     | Male   | Hyderabad |    82 |
+| 12 | Sushmitha Siridoshi     | sushmitha.s@gmail.com     | Female | Hyderabad |    67 |
+| 13 | Sree Charan Vutukuri    | sree.charan@gmail.com     | Male   | Hyderabad |    95 |
+| 14 | Sanjana Yelligaddala    | sanjana.y@gmail.com       | Female | Hyderabad |    79 |
++----+-------------------------+---------------------------+--------+-----------+-------+
+14 rows in set (0.00 sec)
+
+mysql> select * from students where gender='female' and city='pune'
+    -> ;
+Empty set (0.00 sec)
+
+mysql> select * from students where gender='female' and not city='pune';
++----+----------------------+---------------------------+--------+-----------+-------+
+| id | name                 | email_id                  | gender | city      | marks |
++----+----------------------+---------------------------+--------+-----------+-------+
+|  1 | Nikitha G            | nikitha.g@gmail.com       | Female | Hyderabad |    78 |
+|  2 | Shruti Tiwari        | shruti.tiwari@gmail.com   | Female | Hyderabad |    85 |
+|  3 | Srujana Tk           | srujana.tk@gmail.com      | Female | Hyderabad |    69 |
+|  4 | Chandana Abbidi      | chandana.abbidi@gmail.com | Female | Hyderabad |    92 |
+|  5 | Keerthana Bodi       | keerthana.bodi@gmail.com  | Female | Delhi     |    74 |
+|  7 | Nithisha Kandakatla  | nithisha.k@gmail.com      | Female | Hyderabad |    61 |
+|  8 | Dishmitha M          | dishmitha.m@gmail.com     | Female | Hyderabad |    55 |
+|  9 | Deepika Nadimpalli   | deepika.n@gmail.com       | Female | Banglore  |    90 |
+| 12 | Sushmitha Siridoshi  | sushmitha.s@gmail.com     | Female | Hyderabad |    67 |
+| 14 | Sanjana Yelligaddala | sanjana.y@gmail.com       | Female | Hyderabad |    79 |
++----+----------------------+---------------------------+--------+-----------+-------+
+10 rows in set (0.00 sec)
+
+mysql> select * from students where gender='female' and city='pune';
+Empty set (0.00 sec)
+
+mysql> select id,name,marks from students where city='pune' or city='Banglore';
++----+--------------------+-------+
+| id | name               | marks |
++----+--------------------+-------+
+|  6 | Akshay Bouroju     |    88 |
+|  9 | Deepika Nadimpalli |    90 |
++----+--------------------+-------+
+2 rows in set (0.00 sec)
+
+mysql> select id,name,marks from students where city='pune' or city='Banglore' or marks>90;
++----+----------------------+-------+
+| id | name                 | marks |
++----+----------------------+-------+
+|  4 | Chandana Abbidi      |    92 |
+|  6 | Akshay Bouroju       |    88 |
+|  9 | Deepika Nadimpalli   |    90 |
+| 13 | Sree Charan Vutukuri |    95 |
++----+----------------------+-------+
+4 rows in set (0.00 sec)
+
+mysql> select id,name,marks from students where city='pune' or city='Banglore' and gender='male' or marks>90;
++----+----------------------+-------+
+| id | name                 | marks |
++----+----------------------+-------+
+|  4 | Chandana Abbidi      |    92 |
+|  6 | Akshay Bouroju       |    88 |
+| 13 | Sree Charan Vutukuri |    95 |
++----+----------------------+-------+
+3 rows in set (0.00 sec)
+
+mysql> select id,name,marks from students where city='pune' or city='Banglore' and gender='male' or marks>=90;
++----+----------------------+-------+
+| id | name                 | marks |
++----+----------------------+-------+
+|  4 | Chandana Abbidi      |    92 |
+|  6 | Akshay Bouroju       |    88 |
+|  9 | Deepika Nadimpalli   |    90 |
+| 13 | Sree Charan Vutukuri |    95 |
++----+----------------------+-------+
+4 rows in set (0.00 sec)
+
+mysql> select id,name,marks from students where marks>=40 and marks<=90;
++----+-------------------------+-------+
+| id | name                    | marks |
++----+-------------------------+-------+
+|  1 | Nikitha G               |    78 |
+|  2 | Shruti Tiwari           |    85 |
+|  3 | Srujana Tk              |    69 |
+|  5 | Keerthana Bodi          |    74 |
+|  6 | Akshay Bouroju          |    88 |
+|  7 | Nithisha Kandakatla     |    61 |
+|  8 | Dishmitha M             |    55 |
+|  9 | Deepika Nadimpalli      |    90 |
+| 10 | Keerthan Pentam         |    73 |
+| 11 | Kranthi Kumar Samudrala |    82 |
+| 12 | Sushmitha Siridoshi     |    67 |
+| 14 | Sanjana Yelligaddala    |    79 |
++----+-------------------------+-------+
+12 rows in set (0.00 sec)
+
+mysql> select id,name,marks from students where marks between 40 and 90;
++----+-------------------------+-------+
+| id | name                    | marks |
++----+-------------------------+-------+
+|  1 | Nikitha G               |    78 |
+|  2 | Shruti Tiwari           |    85 |
+|  3 | Srujana Tk              |    69 |
+|  5 | Keerthana Bodi          |    74 |
+|  6 | Akshay Bouroju          |    88 |
+|  7 | Nithisha Kandakatla     |    61 |
+|  8 | Dishmitha M             |    55 |
+|  9 | Deepika Nadimpalli      |    90 |
+| 10 | Keerthan Pentam         |    73 |
+| 11 | Kranthi Kumar Samudrala |    82 |
+| 12 | Sushmitha Siridoshi     |    67 |
+| 14 | Sanjana Yelligaddala    |    79 |
++----+-------------------------+-------+
+12 rows in set (0.01 sec)
+
+mysql> select id,name,marks from students where marks not between 50 and 70;
++----+-------------------------+-------+
+| id | name                    | marks |
++----+-------------------------+-------+
+|  1 | Nikitha G               |    78 |
+|  2 | Shruti Tiwari           |    85 |
+|  4 | Chandana Abbidi         |    92 |
+|  5 | Keerthana Bodi          |    74 |
+|  6 | Akshay Bouroju          |    88 |
+|  9 | Deepika Nadimpalli      |    90 |
+| 10 | Keerthan Pentam         |    73 |
+| 11 | Kranthi Kumar Samudrala |    82 |
+| 13 | Sree Charan Vutukuri    |    95 |
+| 14 | Sanjana Yelligaddala    |    79 |
++----+-------------------------+-------+
+10 rows in set (0.00 sec)
+
+mysql> select id,name,marks from students where city='pune' or city='Banglore' ;
++----+--------------------+-------+
+| id | name               | marks |
++----+--------------------+-------+
+|  6 | Akshay Bouroju     |    88 |
+|  9 | Deepika Nadimpalli |    90 |
++----+--------------------+-------+
+2 rows in set (0.00 sec)
+
+mysql> select id,name,marks from students where city in ('pune','Banglore') ;
++----+--------------------+-------+
+| id | name               | marks |
++----+--------------------+-------+
+|  6 | Akshay Bouroju     |    88 |
+|  9 | Deepika Nadimpalli |    90 |
++----+--------------------+-------+
+2 rows in set (0.00 sec)
+
+mysql> select count(id),city from students group by city;
++-----------+-----------+
+| count(id) | city      |
++-----------+-----------+
+|        11 | Hyderabad |
+|         1 | Delhi     |
+|         1 | Pune      |
+|         1 | Banglore  |
++-----------+-----------+
+4 rows in set (0.02 sec)
+
+mysql> select city,count(gender) from students group by city;
++-----------+---------------+
+| city      | count(gender) |
++-----------+---------------+
+| Hyderabad |            11 |
+| Delhi     |             1 |
+| Pune      |             1 |
+| Banglore  |             1 |
++-----------+---------------+
+4 rows in set (0.00 sec)
+
+mysql> select city,count(gender) as countStudents from students group by city;
++-----------+---------------+
+| city      | countStudents |
++-----------+---------------+
+| Hyderabad |            11 |
+| Delhi     |             1 |
+| Pune      |             1 |
+| Banglore  |             1 |
++-----------+---------------+
+4 rows in set (0.01 sec)
+
+mysql> select city,count(gender) as countStudents from students group by city order by count(*);
++-----------+---------------+
+| city      | countStudents |
++-----------+---------------+
+| Delhi     |             1 |
+| Pune      |             1 |
+| Banglore  |             1 |
+| Hyderabad |            11 |
++-----------+---------------+
+4 rows in set (0.01 sec)
+
+mysql> select city,count(gender) as countStudents from students group by city order by count(*) desc;
++-----------+---------------+
+| city      | countStudents |
++-----------+---------------+
+| Hyderabad |            11 |
+| Delhi     |             1 |
+| Pune      |             1 |
+| Banglore  |             1 |
++-----------+---------------+
+4 rows in set (0.00 sec)
+
+mysql> select city,avg(marks) as bestCity from students group by city order by count(*) desc;
++-----------+----------+
+| city      | bestCity |
++-----------+----------+
+| Hyderabad |  76.0000 |
+| Delhi     |  74.0000 |
+| Pune      |  88.0000 |
+| Banglore  |  90.0000 |
++-----------+----------+
+4 rows in set (0.01 sec)
+
+mysql> select city,avg(marks) as bestCity from students group by city order by avg(marks) desc;
++-----------+----------+
+| city      | bestCity |
++-----------+----------+
+| Banglore  |  90.0000 |
+| Pune      |  88.0000 |
+| Hyderabad |  76.0000 |
+| Delhi     |  74.0000 |
++-----------+----------+
+4 rows in set (0.00 sec)
+
+mysql> select gender,avg(marks) as bestGender from students group by gender;
++--------+------------+
+| gender | bestGender |
++--------+------------+
+| Female |    75.0000 |
+| Male   |    84.5000 |
++--------+------------+
+2 rows in set (0.00 sec)
+
+mysql> select gender,avg(marks) as bestGender from students group by gender order by avg(marks);
++--------+------------+
+| gender | bestGender |
++--------+------------+
+| Female |    75.0000 |
+| Male   |    84.5000 |
++--------+------------+
+2 rows in set (0.00 sec)
+
+mysql> select gender,avg(marks) as bestGender from students group by gender order by avg(marks) desc;
++--------+------------+
+| gender | bestGender |
++--------+------------+
+| Male   |    84.5000 |
+| Female |    75.0000 |
++--------+------------+
+2 rows in set (0.01 sec)
+
+mysql> select gender,avg(marks) as bestGender from students group by gender order by avg(marks) desc limit 1;
++--------+------------+
+| gender | bestGender |
++--------+------------+
+| Male   |    84.5000 |
++--------+------------+
+1 row in set (0.01 sec)
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+mysql> show tables
+    -> ;
++---------------+
+| Tables_in_db1 |
++---------------+
+| students      |
++---------------+
+1 row in set (0.00 sec)
+
+mysql> CREATE TABLE salespeople (
+    ->     snum INT NOT NULL,
+    ->     sname VARCHAR(30) NOT NULL,
+    ->     city VARCHAR(30) NOT NULL,
+    ->     comm DECIMAL(4,2) NOT NULL,
+    ->     PRIMARY KEY (snum)
+    -> );
+Query OK, 0 rows affected (0.09 sec)
+
+mysql> INSERT INTO salespeople (snum, sname, city, comm) VALUES
+    -> (1001, 'Peel', 'London', 0.12),
+    -> (1002, 'Serres', 'San Jose', 0.13),
+    -> (1004, 'Motika', 'London', 0.11),
+    -> (1007, 'Rifkin', 'Barcelona', 0.15),
+    -> (1003, 'AxelRod', 'New York', 0.10),
+    -> (1005, 'Fran', 'London', 0.26);
+Query OK, 6 rows affected (0.01 sec)
+Records: 6  Duplicates: 0  Warnings: 0
+
+mysql> CREATE TABLE IF NOT EXISTS customer (
+    ->  cnum INT NOT NULL,
+    ->  cname VARCHAR(30) NOT NULL,
+    ->  city VARCHAR(30) NOT NULL,
+    ->  rating int not null,
+    -> snum int NOT NULL,
+    ->  PRIMARY KEY (cnum),
+    ->  FOREIGN KEY (snum) REFERENCES salespeople(snum)
+    ->  );
+Query OK, 0 rows affected (0.05 sec)
+
+mysql>
+mysql>  INSERT INTO customer (cnum, cname, city, rating, snum) VALUES
+    -> (2001, 'Hoffman',  'London',    100, 1001),
+    -> (2002, 'Giovanni', 'Rome',      200, 1003),
+    -> (2003, 'Liu',      'San Jose',  200, 1002),
+    -> (2004, 'Grass',    'Berlin',    300, 1002),
+    -> (2006, 'Clemens',  'London',    100, 1001),
+    -> (2008, 'Cisneros', 'San Jose',  300, 1007),
+    -> (2007, 'Pereira',  'Rome',      100, 1004);
+Query OK, 7 rows affected (0.01 sec)
+Records: 7  Duplicates: 0  Warnings: 0
+
+mysql> CREATE TABLE IF NOT EXISTS orders (
+    ->  onum INT NOT NULL,
+    ->  amt DECIMAL(7,2) NOT NULL,
+    ->  odate Date NOT NULL,
+    -> cnum int NOT NULL,
+    ->  PRIMARY KEY (onum),
+    ->  FOREIGN KEY (cnum) REFERENCES customer(cnum)
+    ->  );
+Query OK, 0 rows affected (0.04 sec)
+
+mysql>
+mysql>  INSERT INTO orders (onum, amt, odate, cnum) VALUES
+    -> (3001, 18.69,   '1996-03-10', 2008),
+    -> (3003, 767.19,  '1996-03-10', 2001),
+    -> (3002, 1900.10, '1996-03-10', 2007),
+    -> (3005, 5160.45, '1996-03-10', 2003),
+    -> (3006, 1098.16, '1996-03-10', 2008),
+    -> (3009, 1713.23, '1996-03-10', 2002),
+    -> (3007, 75.75,   '1996-03-10', 2002),
+    -> (3008, 4723.00, '1996-03-10', 2006),
+    -> (3010, 1309.95, '1996-03-10', 2004),
+    -> (3011, 9891.88, '1996-03-10', 2006);
+Query OK, 10 rows affected (0.01 sec)
+Records: 10  Duplicates: 0  Warnings: 0
+
+mysql> select * from salespeople s inner join customer c on s.snum=c.snum;
++------+---------+-----------+------+------+----------+----------+--------+------+
+| snum | sname   | city      | comm | cnum | cname    | city     | rating | snum |
++------+---------+-----------+------+------+----------+----------+--------+------+
+| 1001 | Peel    | London    | 0.12 | 2001 | Hoffman  | London   |    100 | 1001 |
+| 1003 | AxelRod | New York  | 0.10 | 2002 | Giovanni | Rome     |    200 | 1003 |
+| 1002 | Serres  | San Jose  | 0.13 | 2003 | Liu      | San Jose |    200 | 1002 |
+| 1002 | Serres  | San Jose  | 0.13 | 2004 | Grass    | Berlin   |    300 | 1002 |
+| 1001 | Peel    | London    | 0.12 | 2006 | Clemens  | London   |    100 | 1001 |
+| 1004 | Motika  | London    | 0.11 | 2007 | Pereira  | Rome     |    100 | 1004 |
+| 1007 | Rifkin  | Barcelona | 0.15 | 2008 | Cisneros | San Jose |    300 | 1007 |
++------+---------+-----------+------+------+----------+----------+--------+------+
+7 rows in set (0.01 sec)
+
+mysql> select s.snum,s.sname,c.cnum,c.cname from salespeople s inner join customer c on s.snum=c.snum;
++------+---------+------+----------+
+| snum | sname   | cnum | cname    |
++------+---------+------+----------+
+| 1001 | Peel    | 2001 | Hoffman  |
+| 1003 | AxelRod | 2002 | Giovanni |
+| 1002 | Serres  | 2003 | Liu      |
+| 1002 | Serres  | 2004 | Grass    |
+| 1001 | Peel    | 2006 | Clemens  |
+| 1004 | Motika  | 2007 | Pereira  |
+| 1007 | Rifkin  | 2008 | Cisneros |
++------+---------+------+----------+
+7 rows in set (0.01 sec)
+
+mysql> select s.snum,s.sname,c.cnum,c.cname from salespeople s inner join customer c on s.snum=c.snum where s.snum=1001;
++------+-------+------+---------+
+| snum | sname | cnum | cname   |
++------+-------+------+---------+
+| 1001 | Peel  | 2001 | Hoffman |
+| 1001 | Peel  | 2006 | Clemens |
++------+-------+------+---------+
+2 rows in set (0.01 sec)
+
+mysql> select s.snum,count(s.snum) from salespeople s inner join customer c on s.snum=c.snum where s.snum=1001 ;
++------+---------------+
+| snum | count(s.snum) |
++------+---------------+
+| 1001 |             2 |
++------+---------------+
+1 row in set (0.02 sec)
+
+mysql> select s.snum,count(c.cnum) from salespeople s inner join customer c on s.snum=c.snum group by s.snum;
++------+---------------+
+| snum | count(c.cnum) |
++------+---------------+
+| 1001 |             2 |
+| 1002 |             2 |
+| 1003 |             1 |
+| 1004 |             1 |
+| 1007 |             1 |
++------+---------------+
+5 rows in set (0.01 sec)
+
+mysql> select * from salespeople s inner join customer c on s.snum=c.snum;
++------+---------+-----------+------+------+----------+----------+--------+------+
+| snum | sname   | city      | comm | cnum | cname    | city     | rating | snum |
++------+---------+-----------+------+------+----------+----------+--------+------+
+| 1001 | Peel    | London    | 0.12 | 2001 | Hoffman  | London   |    100 | 1001 |
+| 1003 | AxelRod | New York  | 0.10 | 2002 | Giovanni | Rome     |    200 | 1003 |
+| 1002 | Serres  | San Jose  | 0.13 | 2003 | Liu      | San Jose |    200 | 1002 |
+| 1002 | Serres  | San Jose  | 0.13 | 2004 | Grass    | Berlin   |    300 | 1002 |
+| 1001 | Peel    | London    | 0.12 | 2006 | Clemens  | London   |    100 | 1001 |
+| 1004 | Motika  | London    | 0.11 | 2007 | Pereira  | Rome     |    100 | 1004 |
+| 1007 | Rifkin  | Barcelona | 0.15 | 2008 | Cisneros | San Jose |    300 | 1007 |
++------+---------+-----------+------+------+----------+----------+--------+------+
+7 rows in set (0.02 sec)
+
+
+mysql> select s.snum,count(c.cnum) from salespeople s inner join customer c on s.snum=c.snum group by s.snum;
++------+---------------+
+| snum | count(c.cnum) |
++------+---------------+
+| 1001 |             2 |
+| 1002 |             2 |
+| 1003 |             1 |
+| 1004 |             1 |
+| 1007 |             1 |
++------+---------------+
+5 rows in set (0.00 sec)
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,30 @@
+Machine Learning Pipeline
+
+step 1: Import the required lib
+
+step 2: Load the datasets -> head, tail, info, columns
+
+step 3: Data preprocessing -> missing , detect outlier
+
+step 4: EDA ( Expolratory Data Analysis)
+
+step 5: Feature Engineering
+
+step 6: Divide data into x and y (input features and output features)
+
+step 7: Splitting dataset into training and testing  
+
+step 8: Train model 
+        1. Import model lib
+        2. Load model
+        3. Fit model on the trained data(ie: train model)
+        4. Predict the testing data 
+
+step 9: Check model loss function
+
+step 10: check model Evaluation Metrics
+
+step 11: Saved model
+
+# input features , independent and random variable, X data
+# output

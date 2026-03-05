@@ -4,48 +4,59 @@ import matplotlib.pyplot as plt
 
 from model import load_data, train_model, predict_delay
 
+def predict():
+    st.set_page_config(page_title="Flight Delay Predictor")
+    st.title("Flight Delay Prediction")
+    # Load dataset
+    df = load_data()
+    
+    # Train model
+    model = train_model(df)
 
-st.set_page_config(page_title="Flight Delay Predictor")
+    # simple input form
+    st.subheader("Input Flight Distance")
+    distance = st.number_input("Distance (km)", min_value=0.0, value=1000.0)
 
-st.title("Flight Delay Prediction")
+    if st.button("Predict Delay"):
 
-# Load dataset
-df = load_data()
+        # Prediction
+        delay = predict_delay(model, distance)
 
-# Train model
-model = train_model(df)
+        st.subheader("Predicted Arrival Delay")
 
-# Sidebar input
-distance = st.sidebar.slider(
-    "Distance (km)",
-    int(df.distance_km.min()),
-    int(df.distance_km.max()),
-    1500
-)
+        st.success(f"{delay:.2f} minutes")
 
-# Prediction
-delay = predict_delay(model, distance)
 
-st.subheader("Predicted Arrival Delay")
 
-st.success(f"{delay:.2f} minutes")
+def Visualization():
 
-# Visualization
-st.subheader("Distance vs Arrival Delay")
+    # Load dataset
+    df = load_data()
+    model = train_model(df)
 
-fig, ax = plt.subplots()
+    st.title("Distance vs Arrival Delay")
 
-ax.scatter(df["distance_km"], df["arrival_delay_min"], alpha=0.5)
+    fig, ax = plt.subplots()
 
-x_range = np.linspace(df.distance_km.min(), df.distance_km.max(), 100)
+    ax.scatter(df["distance_km"], df["arrival_delay_min"], alpha=0.5)
 
-y_range = model.predict(
-    x_range.reshape(-1,1)
-)
+    x_range = np.linspace(df.distance_km.min(), df.distance_km.max(), 100)
 
-ax.plot(x_range, y_range)
+    y_range = model.predict(
+        x_range.reshape(-1,1)
+    )
 
-ax.set_xlabel("Distance (km)")
-ax.set_ylabel("Arrival Delay (minutes)")
+    ax.plot(x_range, y_range)
 
-st.pyplot(fig)
+    ax.set_xlabel("Distance (km)")
+    ax.set_ylabel("Arrival Delay (minutes)")
+
+    st.pyplot(fig)
+
+st.sidebar.title("Flight Delay Predictor")
+option = st.sidebar.radio("Select an option", ("Predict Delay", "Visualize Data"))
+if option == "Predict Delay":
+    predict()
+elif option == "Visualize Data":
+    Visualization()
+

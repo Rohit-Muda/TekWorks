@@ -1,13 +1,26 @@
-# TekWorks Files of Code from Jupier Notebook
+# Tekworks Training Repository
 
-## Week 1
-- Basics of Python
-- Jupyter Notebook
-  
-## Week 2
-### Day 3
-- Environment Creation using Python and Conda
-- Data Base Connection from python to MySQL
-- streamlit integration
-- streamlit task ( CURD Operations)
-s
+This repository contains all the concepts, exercises, and practical implementations covered during my ongoing training sessions conducted every Wednesday and Thursday.
+
+## Structure
+
+All learning materials are organized week-wise and session-wise.
+
+Each file represents a specific session and contains the concepts, examples, and practical implementations taught on that particular day.
+
+## What This Repository Includes
+
+- Core concepts explained during the session  
+- Hands-on coding exercises  
+- Implementation examples  
+
+Every file focuses on a distinct concept or topic covered during that training session.
+
+## Objective
+
+The purpose of this repository is to:
+
+- Maintain a structured record of weekly learning  
+- Track progress consistently  
+- Strengthen conceptual clarity through documentation  
+- Build a well-organized reference for future revision  

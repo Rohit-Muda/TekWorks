@@ -1,20 +1,20 @@
 import os
 import pickle
-
-os.environ["TF_CPP_MIN_LOG_LEVEL"] = "2"
+from pathlib import Path
 
 import numpy as np
 import streamlit as st
 import tensorflow as tf
-
 from tensorflow.keras.callbacks import EarlyStopping
 from tensorflow.keras.layers import Dense, Embedding, Input, SimpleRNN
 from tensorflow.keras.models import Sequential, load_model
 
+os.environ["TF_CPP_MIN_LOG_LEVEL"] = "2"
 
-MODEL = "char_rnn_many_to_many.keras"
-VOCAB = "char_vocab.pkl"
-DATASET = "tiny-shakespeare.txt"
+BASE_DIR = Path(__file__).resolve().parent
+MODEL_PATH = BASE_DIR / "char_rnn_many_to_many.keras"
+VOCAB_PATH = BASE_DIR / "char_vocab.pkl"
+DATASET_PATH = BASE_DIR / "tiny-shakespeare.txt"
 
 SEQ_LEN = 80
 STEP_SIZE = 3
@@ -25,8 +25,19 @@ EPOCHS = 8
 TRAIN_SPLIT = 0.9
 
 
+@st.cache_resource
+def load_saved_model():
+    return load_model(MODEL_PATH)
+
+
+@st.cache_resource
+def load_saved_vocab():
+    with VOCAB_PATH.open("rb") as file:
+        return pickle.load(file)
+
+
 def load_text():
-    with open(DATASET, "r", encoding="utf-8") as file:
+    with DATASET_PATH.open("r", encoding="utf-8") as file:
         return file.read()
 
 
@@ -59,11 +70,7 @@ def make_sequence_dataset(encoded_text, shuffle):
         shuffle=shuffle,
     )
 
-    dataset = dataset.map(
-        split_input_target,
-        num_parallel_calls=tf.data.AUTOTUNE,
-    )
-
+    dataset = dataset.map(split_input_target, num_parallel_calls=tf.data.AUTOTUNE)
     return dataset.prefetch(tf.data.AUTOTUNE)
 
 
@@ -82,15 +89,12 @@ def build_model(vocab_size):
         loss="sparse_categorical_crossentropy",
         metrics=["accuracy"],
     )
-
     return model
 
 
 def train_model():
-    if not os.path.exists(DATASET):
-        raise FileNotFoundError(f"{DATASET} was not found.")
-
-    print("Training many-to-many character RNN...")
+    if not DATASET_PATH.exists():
+        raise FileNotFoundError(f"{DATASET_PATH} was not found.")
 
     text = load_text()
     char_to_idx, idx_to_char = build_vocabulary(text)
@@ -103,7 +107,7 @@ def train_model():
     train_dataset = make_sequence_dataset(train_encoded, shuffle=True)
     val_dataset = make_sequence_dataset(val_encoded, shuffle=False)
 
-    with open(VOCAB, "wb") as file:
+    with VOCAB_PATH.open("wb") as file:
         pickle.dump(
             {
                 "char_to_idx": char_to_idx,
@@ -114,14 +118,7 @@ def train_model():
         )
 
     model = build_model(len(idx_to_char))
-
-    callbacks = [
-        EarlyStopping(
-            monitor="val_loss",
-            patience=2,
-            restore_best_weights=True,
-        )
-    ]
+    callbacks = [EarlyStopping(monitor="val_loss", patience=2, restore_best_weights=True)]
 
     history = model.fit(
         train_dataset,
@@ -131,18 +128,11 @@ def train_model():
         verbose=1,
     )
 
-    model.save(MODEL)
-
-    validation_loss, validation_accuracy = model.evaluate(
-        val_dataset,
-        verbose=0,
-    )
+    model.save(MODEL_PATH)
+    validation_loss, validation_accuracy = model.evaluate(val_dataset, verbose=0)
 
     load_saved_model.clear()
     load_saved_vocab.clear()
-
-    print(f"Validation loss: {validation_loss:.4f}")
-    print(f"Validation accuracy: {validation_accuracy:.4f}")
 
     return {
         "history": history.history,
@@ -151,17 +141,6 @@ def train_model():
         "vocab_size": len(idx_to_char),
         "dataset_size": len(encoded_text),
     }
-
-
-@st.cache_resource
-def load_saved_model():
-    return load_model(MODEL)
-
-
-@st.cache_resource
-def load_saved_vocab():
-    with open(VOCAB, "rb") as file:
-        return pickle.load(file)
 
 
 def sample_next_index(probabilities, temperature):
@@ -192,7 +171,6 @@ def generate_text(seed_text, length, temperature):
         window = generated_indices[-SEQ_LEN:]
         padded = np.full((SEQ_LEN,), pad_index, dtype=np.int32)
         padded[-len(window):] = window
-
         predictions = model.predict(padded[np.newaxis, :], verbose=0)
         next_index = sample_next_index(predictions[0, -1], temperature)
         generated_indices.append(next_index)
@@ -200,79 +178,40 @@ def generate_text(seed_text, length, temperature):
     return "".join(idx_to_char[index] for index in generated_indices)
 
 
-st.set_page_config(
-    page_title="Shakespeare Character Generator",
-    page_icon="T",
-    layout="centered",
-)
-
+st.set_page_config(page_title="Shakespeare Character Generator", page_icon="🎭", layout="centered")
 st.title("Character-Level Text Generation using RNN")
-st.write("Many to Many RNN")
+st.write("Many-to-Many RNN")
 st.caption("The model learns a next-character sequence at every time step.")
 
-if not os.path.exists(DATASET):
-    st.error(f"{DATASET} was not found in the current folder.")
+if not DATASET_PATH.exists():
+    st.error(f"Dataset not found at {DATASET_PATH}")
     st.stop()
 
 training_stats = None
 
-if not os.path.exists(MODEL) or not os.path.exists(VOCAB):
+if not MODEL_PATH.exists() or not VOCAB_PATH.exists():
     st.warning("Saved model not found. Training a new many-to-many RNN...")
-
     with st.spinner("Training model. Please wait..."):
         training_stats = train_model()
-
     st.success("Training completed!")
 
 st.subheader("Generate Text")
-
-seed_text = st.text_area(
-    "Enter seed text",
-    value="ROMEO:\n",
-    height=180,
-)
-
-generation_length = st.slider(
-    "Characters to generate",
-    min_value=50,
-    max_value=500,
-    value=250,
-    step=25,
-)
-
-temperature = st.slider(
-    "Temperature",
-    min_value=0.2,
-    max_value=1.5,
-    value=0.8,
-    step=0.1,
-)
+seed_text = st.text_area("Enter seed text", value="ROMEO:\n", height=180)
+generation_length = st.slider("Characters to generate", min_value=50, max_value=500, value=250, step=25)
+temperature = st.slider("Temperature", min_value=0.2, max_value=1.5, value=0.8, step=0.1)
 
 if st.button("Generate"):
-    generated_text = generate_text(
-        seed_text=seed_text,
-        length=generation_length,
-        temperature=temperature,
-    )
-
-    st.text_area(
-        "Generated output",
-        value=generated_text,
-        height=320,
-    )
+    generated_text = generate_text(seed_text=seed_text, length=generation_length, temperature=temperature)
+    st.text_area("Generated output", value=generated_text, height=320)
 
 if st.button("Retrain Model"):
     with st.spinner("Retraining model. Please wait..."):
         training_stats = train_model()
-
     st.success("Model retrained successfully!")
 
 if training_stats is not None:
     st.info(
         "Vocabulary size: "
-        f"{training_stats['vocab_size']} | "
-        "Characters used: "
-        f"{training_stats['dataset_size']} | "
-        "Validation accuracy: "
-        f"{training_stats['validation_accuracy']:.2%}"
-    ) 
+        f"{training_stats['vocab_size']} | Characters used: {training_stats['dataset_size']} | "
+        f"Validation accuracy: {training_stats['validation_accuracy']:.2%}"
+    )
